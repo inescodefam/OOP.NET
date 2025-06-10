@@ -1,0 +1,38 @@
+{
+  "hr": {
+    "btnLandingClose": "Odustani",
+    "btnLandingContinue": "Nastavi",
+    "DashboardForm": "FIFA Svjetski kup Kontrolna ploča",
+    "lbChooseLanguage": "Odaberite jezik:",
+    "lbChooseChampionship": "Odaberite muško ili žensko prvenstvo:",
+    "lbChooseTeam": "Odaberite reprezentaciju:",
+    "label4": "",
+    "lbWelcome": "Dobrodošli!",
+    "LandingForm": "FIFA Svjetski kup",
+    "rbCro": "Hrvatski",
+    "rbEng": "Engleski",
+    "rbFemale": "Žensko",
+    "rbMale": "Muško",
+    "tabPage1": "Jezik",
+    "tabPage2": "Spol",
+    "tabPage3": "Reprezentacija"
+  },
+  "en": {
+    "btnLandingClose": "Cancel",
+    "btnLandingContinue": "Continue",
+    "DashboardForm": "FIFA World Cup Dashboard",
+    "lbChooseLanguage": "Choose language:",
+    "lbChooseChampionship": "Choose male or female championship:",
+    "lbChooseTeam": "Choose team:",
+    "label4": "",
+    "lbWelcome": "Welcome!",
+    "LandingForm": "FIFA World Cup",
+    "rbCro": "Croatian",
+    "rbEng": "English",
+    "rbFemale": "Female",
+    "rbMale": "Male",
+    "tabPage1": "Language",
+    "tabPage2": "Gender",
+    "tabPage3": "Team"
+  }
+}
