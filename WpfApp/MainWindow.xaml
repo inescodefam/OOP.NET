@@ -20,14 +20,14 @@
         x:Name="spScreenSize"
         Grid.Row="0"
         Grid.Column="0"
-        IsEnabled="False"
         VerticalAlignment="Center"
         HorizontalAlignment="Center"
             Margin="10">
             <Label
-        x:Name="label4"
+        x:Name="lbScreenSize"
         Grid.Row="0"
-        >Screen Size</Label>
+                Content="Screen Size"
+        ></Label>
             <RadioButton Margin="0 2 0 2" x:Name="rbSizeFullscreen">
                 Fullscreen
             </RadioButton>
@@ -74,7 +74,7 @@
     HorizontalAlignment="Center"
     >
             <Label 
-        x:Name="labelrep"
+        x:Name="lbRepHome"
         VerticalAlignment="Center"
         HorizontalAlignment="Center" 
                 Content="Home Representation"/>
@@ -86,7 +86,7 @@
                 SelectionChanged="OnHomeRepresentationChanged"
     >
             </ComboBox>
-            <Label x:Name="lbRepresentationHost"/>
+            <Label x:Name="lbRepHost"/>
             <Label 
         x:Name="lbGuest"
         VerticalAlignment="Center"

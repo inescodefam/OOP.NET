@@ -21,12 +21,62 @@ namespace WpfApp
         private UserSettings previousUserSettings = null;
 
         private bool isFemaleSelected = false;
+        private int currentScreenSize;
+        private bool isScreenSizeChosen = false;
+
         public MainWindow()
         {
             InitializeComponent();
             Loaded += MainWindow_Loaded;
             btnLandingContinue.IsEnabled = false;
 
+
+            rbSizeFullscreen.Checked += rbResolution_Checked;
+            rbSize720px.Checked += rbResolution_Checked;
+            rbSize480px.Checked += rbResolution_Checked;
+            rbSize360px.Checked += rbResolution_Checked;
+
+        }
+
+        private void rbResolution_Checked(object sender, RoutedEventArgs e)
+        {
+            if (sender is RadioButton radioChecked)
+            {
+                if (radioChecked == rbSizeFullscreen)
+                {
+                    currentScreenSize = 0;
+                    UncheckSizeButtons(rbSizeFullscreen);
+                }
+                else if (radioChecked == rbSize360px)
+                {
+                    currentScreenSize = 10;
+                    UncheckSizeButtons(rbSize360px);
+                }
+                else if (radioChecked == rbSize480px)
+                {
+                    currentScreenSize = 20;
+                    UncheckSizeButtons(rbSize480px);
+                }
+                else if (radioChecked == rbSize720px)
+                {
+                    currentScreenSize = 30;
+                    UncheckSizeButtons(rbSize720px);
+                }
+                isScreenSizeChosen = true;
+            }
+        }
+
+        private void UncheckSizeButtons(RadioButton rb)
+        {
+
+            if (rb != rbSizeFullscreen)
+                rbSizeFullscreen.IsChecked = false;
+            if (rb != rbSize360px)
+                rbSize360px.IsChecked = false;
+            if (rb != rbSize480px)
+                rbSize480px.IsChecked = false;
+            if (rb != rbSize720px)
+                rbSize720px.IsChecked = false;
         }
 
         private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -135,12 +185,23 @@ namespace WpfApp
 
         private void DisplayMatchResults(List<Match> matches)
         {
-            lbRepresentationHost.Content = $"Host: {_selectedHome.Country} " +
-                $"(W: {_selectedHome.Wins} D: {_selectedHome.Draws} L: {_selectedHome.Losses})";
+            if (rbCro.IsChecked == true)
+            {
+                lbRepHost.Content = $"Domaćini: {_selectedHome.Country} " +
+                   $"(W: {_selectedHome.Wins} D: {_selectedHome.Draws} L: {_selectedHome.Losses})";
 
-            lbRepresentationGuest.Content = $"Guest: {_selectedGuest.Country} " +
+                lbRepresentationGuest.Content = $"Gosti: {_selectedGuest.Country} " +
+                $"(W: {_selectedGuest.Wins} D: {_selectedGuest.Draws} L: {_selectedGuest.Losses})";
+            }
+            else
+            {
+                lbRepHost.Content = $"Host: {_selectedHome.Country} " +
+                    $"(W: {_selectedHome.Wins} D: {_selectedHome.Draws} L: {_selectedHome.Losses})";
+
+                lbRepresentationGuest.Content = $"Guest: {_selectedGuest.Country} " +
                 $"(W: {_selectedGuest.Wins} D: {_selectedGuest.Draws} L: {_selectedGuest.Losses})";
 
+            }
 
         }
 
@@ -152,9 +213,9 @@ namespace WpfApp
                 return;
             }
 
-            //var nextWindow = new MatchDetailsWindow(_selectedHome, _selectedGuest);
-            //nextWindow.Show();
-            //this.Close();
+            var nextWindow = new MatchDetailsWindow(_selectedHome, _selectedGuest);
+            nextWindow.Show();
+            this.Close();
         }
 
         private void OnRepresentationChanged(object sender, SelectionChangedEventArgs e)
@@ -172,7 +233,7 @@ namespace WpfApp
             {
                 _selectedHome = null;
                 _selectedGuest = null;
-                lbRepresentationHost.Content = "Host: ";
+                lbRepHost.Content = "Host: ";
                 lbRepresentationGuest.Content = "Guest: ";
             }
         }

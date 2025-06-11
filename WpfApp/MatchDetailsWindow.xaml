@@ -1,0 +1,130 @@
+﻿<Window x:Class="WpfApp.MatchDetailsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp"
+        mc:Ignorable="d"
+        Title="MatchDetailsWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+       
+        <Grid
+            x:Name="gridWhole"
+            Grid.Row="0"
+            >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid x:Name="gridHome" Grid.Column="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <StackPanel 
+                    x:Name="spHomeGoalie"
+                    Grid.Column="0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    >
+                </StackPanel>
+                <StackPanel 
+                    x:Name="spHomeDefender"
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    >
+                </StackPanel>
+                <StackPanel 
+                    x:Name="spHomeMidfield"
+                    Grid.Column="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    >
+                </StackPanel>
+                <StackPanel 
+                    x:Name="spHomeForward"
+                    Grid.Column="3"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    >
+                </StackPanel>
+            </Grid>
+            <Grid x:Name="gridGuest" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <StackPanel 
+                    x:Name="spGuestGoalie"
+                    Grid.Column="3"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    >
+                </StackPanel>
+                <StackPanel 
+                    x:Name="spGuestDefender"
+                    Grid.Column="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    >
+                </StackPanel>
+                <StackPanel 
+                    x:Name="spGuestMidfield"
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    >
+                </StackPanel>
+                <StackPanel 
+                    x:Name="spGuestForward"
+                    Grid.Column="0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    >
+                </StackPanel>
+            </Grid>
+    </Grid>
+        <Grid Grid.Row="1" Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Vertical" Margin="10">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
+                    <Label x:Name="lbName" Content="Name"/>
+                    <Label x:Name="lbFifaCode" Content="FifaCode"/>
+                    <Label x:Name="lbMatches" Content="Matches"/>
+                    <Label x:Name="lbWins" Content="Wins"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Label x:Name="lbLosses" Content="Losses"/>
+                    <Label x:Name="lbUndecided" Content="Undecided"/>
+                    <Label x:Name="lbGoalsScored" Content="Scored"/>
+                    <Label x:Name="lbGoalsTaken" Content="Taken"/>
+                    <Label x:Name="lbDiff" Content="Diff"/>
+                </StackPanel>
+            </StackPanel>
+            <Button
+             x:Name="btSettings"
+             Padding="5"
+             Margin="10"
+             VerticalAlignment="Center"
+             HorizontalAlignment="Right"
+             Click="btSettings_Click"
+             >
+                Settings
+            </Button>
+        </Grid>
+    </Grid>
+
+</Window>
