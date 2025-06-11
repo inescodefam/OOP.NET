@@ -28,17 +28,20 @@
         Grid.Row="0"
                 Content="Screen Size"
         ></Label>
-            <RadioButton Margin="0 2 0 2" x:Name="rbSizeFullscreen">
-                Fullscreen
+            <RadioButton Margin="0 2 0 2" x:Name="rbSize800px" IsChecked="True">
+                800x450
             </RadioButton>
-            <RadioButton Margin="0 2 0 2" x:Name="rbSize720px">
-                1280x720
+            <RadioButton Margin="0 2 0 2" x:Name="rbSize1024px">
+                1024x768
             </RadioButton>
-            <RadioButton Margin="0 2 0 2" x:Name="rbSize480px">
+            <RadioButton Margin="0 2 0 2" x:Name="rbSize845px">
                 854x480
             </RadioButton>
-            <RadioButton Margin="0 2 0 2" x:Name="rbSize360px">
+            <RadioButton Margin="0 2 0 2" x:Name="rbSize640px">
                 640x360
+            </RadioButton>
+            <RadioButton Margin="0 2 0 2" x:Name="rbSizeFullscreen">
+                Fullscreen
             </RadioButton>
         </StackPanel>
         <!-- Language -->
@@ -72,6 +75,7 @@
     Grid.Column="1"
     VerticalAlignment="Center"
     HorizontalAlignment="Center"
+            Margin="0 0 20 0"
     >
             <Label 
         x:Name="lbRepHome"
@@ -82,7 +86,7 @@
         x:Name="cbRepresentation"
         VerticalAlignment="Top"
         HorizontalAlignment="Center"
-        MinWidth="200"
+        MinWidth="150"
                 SelectionChanged="OnHomeRepresentationChanged"
     >
             </ComboBox>
@@ -96,7 +100,7 @@
         x:Name="cbRepresentationGuest"
         VerticalAlignment="Top"
         HorizontalAlignment="Center"
-        MinWidth="200"
+        MinWidth="150"
                 SelectionChanged="OnRepresentationChanged"/>
             <Label x:Name="lbRepresentationGuest"/>
         </StackPanel>
@@ -105,9 +109,9 @@
         Content="Continue"
         HorizontalAlignment="Right"
         VerticalAlignment="Bottom"
-        Margin="0,0,20,20"
+        Margin="0 0 10 10"
         Width="75"
-        Click="btnContinue_Click" 
+        Click="btnContinue_ClickAsync" 
         Grid.Column="1" 
         Grid.Row="1"/>
     </Grid>

@@ -9,12 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="..\OOP.NET-project-KamberInes\bin\Debug\net8.0-windows\user_settings.txt" Link="user_settings.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Data\DataHandler.csproj" />
     <ProjectReference Include="..\OOP.NET-project-KamberInes\WindowsForms.csproj" />
   </ItemGroup>

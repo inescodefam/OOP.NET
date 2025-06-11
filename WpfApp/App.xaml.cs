@@ -8,7 +8,6 @@ namespace WpfApp
     public partial class App : Application
     {
         public static Translation TranslationInstance { get; } = new Translation();
-
     }
 
 }

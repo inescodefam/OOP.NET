@@ -1,5 +1,4 @@
 ﻿using DataHandler.Models;
-using System.IO;
 
 namespace OOP.NET_project_KamberInes
 {
@@ -7,7 +6,7 @@ namespace OOP.NET_project_KamberInes
     {
         private char DELIMITER = '|';
         //private const string PATH_user_settings = "user_settings.txt";
-        private static readonly string PATH_user_settings = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "user_settings.txt");
+        private static readonly string PATH_user_settings = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\..\user_settings.txt");
 
         private const string PATH_user_favorites = "user_favorites.txt";
         public string Language { get; set; }

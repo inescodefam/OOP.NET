@@ -13,7 +13,7 @@
         </Grid.RowDefinitions>
        
         <Grid
-            x:Name="gridWhole"
+            x:Name="gridMainContianer"
             Grid.Row="0"
             >
             <Grid.ColumnDefinitions>
@@ -100,17 +100,34 @@
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Vertical" Margin="10">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
+                    <Label x:Name="lbRepresentationName" Content="Representation:"/>
                     <Label x:Name="lbName" Content="Name"/>
+
+                    <Label x:Name="lbFifaCodeLabel" Content="Fifa code"/>
                     <Label x:Name="lbFifaCode" Content="FifaCode"/>
-                    <Label x:Name="lbMatches" Content="Matches"/>
+                    
+                    <Label x:Name="lbNumberWins" Content="Wins"/>
                     <Label x:Name="lbWins" Content="Wins"/>
+
+                    <Label x:Name="lbNumberLoses" Content="Loses"/>
+                    <Label x:Name="lbLosses" Content="Losses"/>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <Label x:Name="lbLosses" Content="Losses"/>
+                    <Label x:Name="lbNumberOfMatches" Content="Matches"/>
+                    <Label x:Name="lbMatches" Content="Matches"/>
+
+
+                    <Label x:Name="lbNumberUndecided" Content="Undecided"/>
                     <Label x:Name="lbUndecided" Content="Undecided"/>
+
+                    <Label x:Name="lbNumberScored" Content="Scored"/>
                     <Label x:Name="lbGoalsScored" Content="Scored"/>
+
+                    <Label x:Name="lbNumberTaken" Content="Taken"/>
                     <Label x:Name="lbGoalsTaken" Content="Taken"/>
+
+                    <Label x:Name="lbDifference" Content="Difference"/>
                     <Label x:Name="lbDiff" Content="Diff"/>
                 </StackPanel>
             </StackPanel>

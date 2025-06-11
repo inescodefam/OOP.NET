@@ -1,10 +1,12 @@
-﻿using DataHandler.Converters;
+﻿using DataHandler;
+using DataHandler.Converters;
 using DataHandler.Models;
 using Newtonsoft.Json;
 using OOP.NET_project_KamberInes;
 using RestSharp;
 using System.Windows;
 using System.Windows.Controls;
+using WpfApp.Services;
 
 namespace WpfApp
 {
@@ -21,8 +23,6 @@ namespace WpfApp
         private UserSettings previousUserSettings = null;
 
         private bool isFemaleSelected = false;
-        private int currentScreenSize;
-        private bool isScreenSizeChosen = false;
 
         public MainWindow()
         {
@@ -30,11 +30,16 @@ namespace WpfApp
             Loaded += MainWindow_Loaded;
             btnLandingContinue.IsEnabled = false;
 
-
+            rbSize800px.Checked += rbResolution_Checked;
+            rbSize1024px.Checked += rbResolution_Checked;
+            rbSize845px.Checked += rbResolution_Checked;
+            rbSize640px.Checked += rbResolution_Checked;
             rbSizeFullscreen.Checked += rbResolution_Checked;
-            rbSize720px.Checked += rbResolution_Checked;
-            rbSize480px.Checked += rbResolution_Checked;
-            rbSize360px.Checked += rbResolution_Checked;
+
+            //if (ScreenSizeService.CurrentScreenSizeOption =! )
+            //{
+            //    ScreenSizeService.SetScreenSize(ScreenSizeService.CurrentScreenSizeOption, this);
+            //}
 
         }
 
@@ -42,42 +47,29 @@ namespace WpfApp
         {
             if (sender is RadioButton radioChecked)
             {
-                if (radioChecked == rbSizeFullscreen)
+                if (radioChecked == rbSize800px)
                 {
-                    currentScreenSize = 0;
-                    UncheckSizeButtons(rbSizeFullscreen);
+                    ScreenSizeService.SetScreenSize(0, this);
                 }
-                else if (radioChecked == rbSize360px)
+                else if (radioChecked == rbSize1024px)
                 {
-                    currentScreenSize = 10;
-                    UncheckSizeButtons(rbSize360px);
+                    ScreenSizeService.SetScreenSize(1, this);
                 }
-                else if (radioChecked == rbSize480px)
+                else if (radioChecked == rbSize845px)
                 {
-                    currentScreenSize = 20;
-                    UncheckSizeButtons(rbSize480px);
+                    ScreenSizeService.SetScreenSize(2, this);
                 }
-                else if (radioChecked == rbSize720px)
+                else if (radioChecked == rbSize640px)
                 {
-                    currentScreenSize = 30;
-                    UncheckSizeButtons(rbSize720px);
+                    ScreenSizeService.SetScreenSize(3, this);
                 }
-                isScreenSizeChosen = true;
+                else if (radioChecked == rbSizeFullscreen)
+                {
+                    ScreenSizeService.SetScreenSize(4, this);
+                }
             }
         }
 
-        private void UncheckSizeButtons(RadioButton rb)
-        {
-
-            if (rb != rbSizeFullscreen)
-                rbSizeFullscreen.IsChecked = false;
-            if (rb != rbSize360px)
-                rbSize360px.IsChecked = false;
-            if (rb != rbSize480px)
-                rbSize480px.IsChecked = false;
-            if (rb != rbSize720px)
-                rbSize720px.IsChecked = false;
-        }
 
         private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
@@ -205,7 +197,7 @@ namespace WpfApp
 
         }
 
-        private void btnContinue_Click(object sender, RoutedEventArgs e)
+        private async void btnContinue_ClickAsync(object sender, RoutedEventArgs e)
         {
             if (_selectedHome == null || _selectedGuest == null)
             {
@@ -213,7 +205,16 @@ namespace WpfApp
                 return;
             }
 
-            var nextWindow = new MatchDetailsWindow(_selectedHome, _selectedGuest);
+            UserSettings u = new UserSettings();
+            u.Language = rbCro.IsChecked == true ? "hr" : "en";
+            u.Gender = rbFemale.IsChecked == true;
+            u.Representation = cbRepresentation.SelectedItem?.ToString() ?? string.Empty;
+            previousUserSettings.SaveSettings(u);
+
+            var homeStats = await DataService.GetTeamStatistics(_selectedHome.FifaCode, isFemaleSelected, _selectedHome.Country);
+            var guestStats = await DataService.GetTeamStatistics(_selectedGuest.FifaCode, isFemaleSelected, _selectedGuest.Country);
+
+            var nextWindow = new MatchDetailsWindow(_selectedHome, _selectedGuest, homeStats, guestStats);
             nextWindow.Show();
             this.Close();
         }
@@ -298,5 +299,6 @@ namespace WpfApp
             this.isFemaleSelected = false;
             LoadRepresentation();
         }
+
     }
 }
