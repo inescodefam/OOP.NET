@@ -5,23 +5,33 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WpfApp"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="400">
-    <Grid Margin="4" MouseDown="UserControl_MouseDown">
+             d:DesignHeight="100" d:DesignWidth="200"
+             RenderTransformOrigin="0.5,0.5"
+    MouseDown="UserControl_MouseDown">
+    <UserControl.RenderTransform>
+        <RotateTransform x:Name="PlayerRotateTransform" Angle="0"/>
+    </UserControl.RenderTransform>
+    <Grid Margin="4" MouseDown="UserControl_MouseDown" Background="Azure">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-        <Image Grid.Row="0" Width="50" Height="50" Source="{Binding ImagePath}"
+        <Image Grid.Row="0" Grid.Column="1" Width="50" Height="50" Source="{Binding ImagePath}"
                Stretch="UniformToFill"/>
 
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
             <TextBlock Text="{Binding ShirtNumber}" FontWeight="Bold" Margin="0,0,2,0"/>
+        </StackPanel>
+        <StackPanel  Grid.Row="1" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center">
             <TextBlock Text="{Binding Name}"/>
         </StackPanel>
 
-        <TextBlock Grid.Row="2" Text="★" Visibility="{Binding Captain, Converter={StaticResource BoolToVisibility}}"
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="★" Visibility="{Binding Captain, Converter={StaticResource BoolToVisibility}}"
                    Foreground="Gold" FontWeight="Bold" HorizontalAlignment="Center"/>
     </Grid>
 </UserControl>

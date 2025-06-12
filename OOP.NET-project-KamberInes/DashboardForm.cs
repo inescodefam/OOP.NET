@@ -8,6 +8,7 @@ namespace OOP.NET_project_KamberInes
     {
         private Translation translation = new();
         UserSettings userSettings = new UserSettings();
+        UserSettings currentUserSettings = new UserSettings();
         private List<Player> players = new();
         private List<Player> favorites = new();
         private DataService dataService = new DataService();
@@ -16,6 +17,7 @@ namespace OOP.NET_project_KamberInes
         {
             InitializeComponent();
             this.userSettings = userSettings;
+            this.currentUserSettings = userSettings;
             translation.ApplyTranslations(this);
             lbSelectedRepresentationValue.Text = userSettings.Representation;
 
@@ -138,7 +140,7 @@ namespace OOP.NET_project_KamberInes
 
             try
             {
-                players = await dataService.LoadPlayers(userSettings);
+                players = await dataService.LoadPlayers(currentUserSettings);
                 if (players != null)
                 {
 

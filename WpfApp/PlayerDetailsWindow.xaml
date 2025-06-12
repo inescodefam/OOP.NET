@@ -5,19 +5,32 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp"
         mc:Ignorable="d"
-        Title="PlayerDEtailsWindow" Height="450" Width="800">
-    <Grid Margin="10">
+        Title="PlayerDEtailsWindow" Height="290" Width="400"
+        Loaded="Window_Loaded"
+        >
+    <Grid Margin="10" Background="Azure">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-        <Image Source="{Binding ImagePath}" Width="100" Height="100" Grid.Row="0"/>
-        <TextBlock Text="{Binding Name}" FontSize="18" Grid.Row="1"/>
-        <TextBlock Text="{Binding ShirtNumber}" FontSize="16" Grid.Row="2"/>
+        <StackPanel Width="100" Height="100" Grid.Row="0" Grid.Column="1" x:Name="image"/>
+        <TextBlock Text="{Binding Name}" FontSize="24" Grid.Row="1" Foreground="RoyalBlue"/>
+        <TextBlock Text="{Binding ShirtNumber}" FontSize="24
+                   " Grid.Row="2" Foreground="RoyalBlue"/>
         <TextBlock Text="Captain" Visibility="{Binding Captain, Converter={StaticResource BoolToVisibility}}" 
-                   Grid.Row="3" Foreground="Green"/>
+                   Grid.Row="3" Foreground="RoyalBlue"/>
+        <TextBlock Text="Yellow cards:" Grid.Row="4" Background="Yellow" Foreground="RoyalBlue"/>
+        <Label x:Name="lbYellowCards" Grid.Row="4" Grid.Column="1" Foreground="RoyalBlue" Content="0"/>
+        <TextBlock Text="Goals:" Grid.Row="5" Foreground="RoyalBlue"/>
+        <Label x:Name="lbGoals" Grid.Row="5" Grid.Column="1" Margin="0,0,0,10" Foreground="RoyalBlue" Content="0"/>
     </Grid>
 </Window>

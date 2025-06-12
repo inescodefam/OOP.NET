@@ -1,11 +1,13 @@
 ﻿using DataHandler;
 using DataHandler.Converters;
+using DataHandler.Enums;
 using DataHandler.Models;
 using Newtonsoft.Json;
 using OOP.NET_project_KamberInes;
 using RestSharp;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Animation;
 using WpfApp.Services;
 
 namespace WpfApp
@@ -35,11 +37,6 @@ namespace WpfApp
             rbSize845px.Checked += rbResolution_Checked;
             rbSize640px.Checked += rbResolution_Checked;
             rbSizeFullscreen.Checked += rbResolution_Checked;
-
-            //if (ScreenSizeService.CurrentScreenSizeOption =! )
-            //{
-            //    ScreenSizeService.SetScreenSize(ScreenSizeService.CurrentScreenSizeOption, this);
-            //}
 
         }
 
@@ -182,16 +179,22 @@ namespace WpfApp
                 lbRepHost.Content = $"Domaćini: {_selectedHome.Country} " +
                    $"(W: {_selectedHome.Wins} D: {_selectedHome.Draws} L: {_selectedHome.Losses})";
 
-                lbRepresentationGuest.Content = $"Gosti: {_selectedGuest.Country} " +
-                $"(W: {_selectedGuest.Wins} D: {_selectedGuest.Draws} L: {_selectedGuest.Losses})";
+                if (_selectedGuest != null)
+                {
+                    lbRepresentationGuest.Content = $"Gosti: {_selectedGuest.Country} " +
+                    $"(W: {_selectedGuest.Wins} D: {_selectedGuest.Draws} L: {_selectedGuest.Losses})";
+                }
             }
             else
             {
                 lbRepHost.Content = $"Host: {_selectedHome.Country} " +
                     $"(W: {_selectedHome.Wins} D: {_selectedHome.Draws} L: {_selectedHome.Losses})";
 
-                lbRepresentationGuest.Content = $"Guest: {_selectedGuest.Country} " +
+                if (_selectedGuest != null)
+                {
+                    lbRepresentationGuest.Content = $"Guest: {_selectedGuest.Country} " +
                 $"(W: {_selectedGuest.Wins} D: {_selectedGuest.Draws} L: {_selectedGuest.Losses})";
+                }
 
             }
 
@@ -214,7 +217,7 @@ namespace WpfApp
             var homeStats = await DataService.GetTeamStatistics(_selectedHome.FifaCode, isFemaleSelected, _selectedHome.Country);
             var guestStats = await DataService.GetTeamStatistics(_selectedGuest.FifaCode, isFemaleSelected, _selectedGuest.Country);
 
-            var nextWindow = new MatchDetailsWindow(_selectedHome, _selectedGuest, homeStats, guestStats);
+            var nextWindow = new MatchDetailsWindow(_selectedHome, _selectedGuest, homeStats, guestStats, isFemaleSelected);
             nextWindow.Show();
             this.Close();
         }
@@ -227,6 +230,7 @@ namespace WpfApp
                 _selectedGuest = _allTeams.FirstOrDefault(t => t != _selectedHome);
                 if (_selectedGuest != null)
                 {
+                    _selectedGuest = (TeamsResults)cbRepresentationGuest.SelectedItem;
                     DisplayMatchResults(new List<Match>());
                 }
             }
@@ -236,6 +240,11 @@ namespace WpfApp
                 _selectedGuest = null;
                 lbRepHost.Content = "Host: ";
                 lbRepresentationGuest.Content = "Guest: ";
+            }
+
+            if (_selectedGuest != null)
+            {
+                ShowMatchResult();
             }
         }
 
@@ -300,5 +309,52 @@ namespace WpfApp
             LoadRepresentation();
         }
 
+
+        private void ShowMatchResult()
+        {
+            int homeGoals = 0;
+            int guestGoals = 0;
+
+            if (_selectedHome != null && _selectedGuest != null)
+            {
+                var match = _allMatches.FirstOrDefault(m =>
+                    m.HomeTeamCountry == _selectedHome.Country &&
+                    m.AwayTeamCountry == _selectedGuest.Country);
+
+                if (match != null)
+                {
+                    homeGoals = CountGoals(_selectedHome, match);
+                    guestGoals = CountGoals(_selectedGuest, match);
+                }
+
+            }
+
+            string newResultText = $"{_selectedHome.FifaCode} {homeGoals} - {guestGoals} {_selectedGuest.FifaCode}";
+
+            var fadeOut = (Storyboard)Resources["FadeOutStoryboard"];
+            fadeOut.Completed += (s, e) =>
+            {
+                ResultTextBlock.Text = newResultText;
+                var fadeIn = (Storyboard)Resources["FadeInStoryboard"];
+                fadeIn.Begin();
+            };
+            fadeOut.Begin();
+
+        }
+
+        private int CountGoals(TeamsResults selectedTeam, Match match)
+        {
+            int goals = 0;
+
+            foreach (var ev in match.HomeTeamEvents)
+            {
+                if (ev.TypeOfEvent == TypeOfEvent.Goal || ev.TypeOfEvent == TypeOfEvent.GoalPenalty)
+                {
+                    goals++;
+                }
+            }
+
+            return goals;
+        }
     }
 }

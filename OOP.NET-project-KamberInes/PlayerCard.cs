@@ -70,7 +70,7 @@ namespace OOP.NET_project_KamberInes
             {
                 string playerName = lbFullname.Text;
                 string playerShirtNumber = lbShirtNumberValue.Text;
-                string imagePath = Path.Combine(Environment.CurrentDirectory, "PlayerImage");
+                string imagePath = Path.Combine(Environment.CurrentDirectory, @"../../../../PlayerImage");
                 string imageFileName = $"{playerName}.jpg";
                 string fullPath = Path.Combine(imagePath, imageFileName);
 

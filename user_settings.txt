@@ -1,1 +1,1 @@
-hr|Germany (GER)|False
+hr|Croatia (CRO)|False

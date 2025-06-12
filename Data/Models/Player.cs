@@ -1,6 +1,7 @@
 ﻿using DataHandler.Enums;
 using Newtonsoft.Json;
 
+
 namespace DataHandler.Models
 {
     public partial class Player

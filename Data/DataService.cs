@@ -67,16 +67,16 @@ namespace DataHandler
             return matches;
         }
 
-        public async Task<List<Player>> LoadPlayers(UserSettings userSettings)
+        public async Task<List<Player>> LoadPlayers(UserSettings currUserSett)
         {
             try
             {
                 return await Task.Run(async () =>
                 {
                     players = await FetchPlayers(
-                                 userSettings.CountryCode,
-                                 userSettings.Gender,
-                                 userSettings.Representation);
+                                 currUserSett.CountryCode,
+                                 currUserSett.Gender,
+                                 currUserSett.Representation);
                     return players;
                 });
             }
@@ -101,6 +101,21 @@ namespace DataHandler
                 return
                    JsonConvert.DeserializeObject<Dictionary<string, string>>(
                         File.ReadAllText("imagePaths.json")) ?? new Dictionary<string, string>();
+            }
+            catch (Exception)
+            {
+
+                return new Dictionary<string, string>();
+            }
+        }
+
+        public Dictionary<string, string> LoadImagePathsForWpf()
+        {
+            try
+            {
+                return
+                   JsonConvert.DeserializeObject<Dictionary<string, string>>(
+                        File.ReadAllText(@"../../../../imagePaths.json")) ?? new Dictionary<string, string>();
             }
             catch (Exception)
             {
@@ -197,7 +212,7 @@ namespace DataHandler
 
             return matches
                 .Where(m => (m.HomeTeam?.Code == fifaCode || m.AwayTeam?.Code == fifaCode) &&
-                            (m.HomeTeam?.Country == representation || m.AwayTeam?.Country == representation))
+                            (m.HomeTeam?.Country == country || m.AwayTeam?.Country == country))
                 .ToList();
         }
 

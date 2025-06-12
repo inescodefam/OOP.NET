@@ -1,4 +1,5 @@
-﻿using DataHandler.Enums;
+﻿using DataHandler;
+using DataHandler.Enums;
 using DataHandler.Models;
 using OOP.NET_project_KamberInes;
 using System.Windows;
@@ -17,14 +18,25 @@ namespace WpfApp
         UserSettings userSettings = new UserSettings();
         private TeamsResults selectedHome;
         private TeamsResults selectedGuest;
-        private Task<TeamStatistics> homeStats;
-        private Task<TeamStatistics> guestStats;
+        private TeamStatistics homeStats;
+        private TeamStatistics guestStats;
+        private Task<List<Match>> matches;
+        private bool isFemaileSelected;
 
-        public MatchDetailsWindow(DataHandler.Models.TeamsResults selectedHome, DataHandler.Models.TeamsResults selectedGuest, TeamStatistics homeStats, TeamStatistics guestStats)
+        public MatchDetailsWindow(DataHandler.Models.TeamsResults selectedHome, DataHandler.Models.TeamsResults selectedGuest, TeamStatistics homeStats, TeamStatistics guestStats, bool isFemaileSelected)
         {
             InitializeComponent();
-            gridMainContianer.Background = new ImageBrush(new BitmapImage(new Uri(System.IO.Path.GetFullPath(@"FieldPlan.png"))));
+            //gridMainContianer.Background = new ImageBrush(new BitmapImage(new Uri(System.IO.Path.GetFullPath(@"FieldPlan.png"))));
+            gridMainContianer.Background = new ImageBrush(
+                new BitmapImage(new Uri("Assets/FieldPlan.png", UriKind.Relative))
+            );
             ScreenSizeService.SetScreenSize(ScreenSizeService.CurrentScreenSizeOption, this);
+
+            this.selectedHome = selectedHome;
+            this.selectedGuest = selectedGuest;
+            this.homeStats = homeStats;
+            this.guestStats = guestStats;
+            this.isFemaileSelected = isFemaileSelected;
 
             lbName.Content = selectedHome.Country;
             lbFifaCode.Content = selectedHome.FifaCode;
@@ -37,14 +49,22 @@ namespace WpfApp
             lbDiff.Content = Math.Abs(selectedHome.GoalsAgainst - selectedHome.GoalsFor);
 
             LoadPlayers(homeStats, guestStats);
+
+            Loaded += async (s, e) => await InitializeAsync();
         }
 
-        public MatchDetailsWindow(TeamsResults selectedHome, TeamsResults selectedGuest, Task<TeamStatistics> homeStats, Task<TeamStatistics> guestStats)
+        private async Task InitializeAsync()
         {
-            this.selectedHome = selectedHome;
-            this.selectedGuest = selectedGuest;
-            this.homeStats = homeStats;
-            this.guestStats = guestStats;
+            try
+            {
+                matches = DataService.GetMatchesByFifaCode(selectedHome.FifaCode, isFemaileSelected, selectedHome.Country);
+
+            }
+            catch
+            {
+
+                MessageBox.Show("Unable to load matches!");
+            }
         }
 
         private void btSettings_Click(object sender, RoutedEventArgs e)
@@ -65,29 +85,46 @@ namespace WpfApp
             foreach (var player in players)
             {
                 var positionPanel = GetPositionPanel(player.Position, container);
-                if (positionPanel == null) continue;
 
                 var playerControl = new PlayerControl(player);
                 playerControl.PlayerClicked += ShowPlayerDetails;
                 positionPanel.Children.Add(playerControl);
+
             }
         }
 
         private StackPanel GetPositionPanel(Position position, Grid container)
         {
-            return position switch
+            if (container != gridGuest)
             {
-                Position.Goalie => container.FindName("spHomeGoalie") as StackPanel,
-                Position.Defender => container.FindName("spHomeDefender") as StackPanel,
-                Position.Midfield => container.FindName("spHomeMidfield") as StackPanel,
-                Position.Forward => container.FindName("spHomeForward") as StackPanel
-            };
+                return position switch
+                {
+                    Position.Goalie => container.FindName("spHomeGoalie") as StackPanel,
+                    Position.Defender => container.FindName("spHomeDefender") as StackPanel,
+                    Position.Midfield => container.FindName("spHomeMidfield") as StackPanel,
+                    Position.Forward => container.FindName("spHomeForward") as StackPanel
+                };
+            }
+            else
+            {
+                return position switch
+                {
+                    Position.Goalie => container.FindName("spGuestGoalie") as StackPanel,
+                    Position.Defender => container.FindName("spGuestDefender") as StackPanel,
+                    Position.Midfield => container.FindName("spGuestMidfield") as StackPanel,
+                    Position.Forward => container.FindName("spGuestForward") as StackPanel
+                };
+            }
+
         }
 
-        private void ShowPlayerDetails(Player player)
+        private async void ShowPlayerDetails(Player player)
         {
-            var detailsWindow = new PlayerDetailsWindow(player);
-            detailsWindow.Owner = this;
+            List<Match> _matches = await matches;
+            var detailsWindow = new PlayerDetailsWindow(player, _matches, selectedHome, selectedGuest)
+            {
+                Owner = this
+            };
             detailsWindow.ShowDialog();
         }
 

@@ -9,6 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\defaultpicture.jpg" />
+    <None Remove="Assets\FieldPlan.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Data\DataHandler.csproj" />
     <ProjectReference Include="..\OOP.NET-project-KamberInes\WindowsForms.csproj" />
   </ItemGroup>
@@ -20,6 +25,15 @@
     <None Update="user_settings.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\defaultpicture.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\FieldPlan.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
