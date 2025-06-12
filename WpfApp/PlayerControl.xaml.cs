@@ -33,8 +33,7 @@ namespace WpfApp
 
             var rotateAnimation = new DoubleAnimation
             {
-                From = 0,
-                To = 360,
+                By = 360,
                 Duration = TimeSpan.FromMilliseconds(500),
             };
 
